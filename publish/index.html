@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>多機能ポモドーロタイマー</title>
+    </head>
+    <body>
+        <div id="time">now loading...</div>
+        <div id="timer">
+            <span id="minute">05</span> : <span id="second">00</span>
+            <button id="start_button">開始</button>
+            <button id="stop_button">一時停止/再開</button>
+            <button id="reset_button">リセット</button>
+        </div>
+        <form>
+            <div id="set_minute">
+                <label for="minute">分</label>
+                <input type="text" id="form_minute" value="05">
+                <label for="second">秒</label>
+                <input type="text" id="form_second" value="00">
+            </div>
+        </form>
+
+        <script src="../js/index.js"></script>
+    </body>
+</html>
