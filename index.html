@@ -5,6 +5,18 @@
         <title>多機能ポモドーロタイマー</title>
     </head>
     <body>
-        
+        <dive id="time">now loading...</dive>
+        <script>
+            const timebox = document.getElementById("time");
+            function discribe_time(){
+                let date = new Date(); //Dateオブジェクトのインスタンスを作った時点での日時を取得できるのでインスタンス作成もIntervalに入れる
+                let hour = date.getHours();
+                let minute = date.getMinutes();
+                let second = date.getSeconds();
+                timebox.textContent = hour + ":" + minute + ":" + second;
+                console.log(second);
+            };
+            setInterval("discribe_time()", 1000);
+        </script>
     </body>
 </html>
