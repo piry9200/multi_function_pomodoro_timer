@@ -1,0 +1,66 @@
+const API_KEY = 'ここに認証キー';
+const API_URL = 'https://api-free.deepl.com/v2/translate';
+const translate_button = document.getElementById("translate_button");
+const change_lang_button = document.getElementById("change_lang_button")
+const lang_areas = document.getElementsByClassName("lang_area");
+
+function translate_to_jap() { //write_areaに入力されている文をread_only_areaに翻訳して表示する
+    const written_words = document.getElementById("write_area").value;
+
+    let content = encodeURI('auth_key=' + API_KEY + '&text=' + written_words + '&source_lang=EN&target_lang=JA');
+    let url = API_URL + '?' + content;
+
+    fetch(url)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Could not reach the API: " + response.statusText);
+            }
+        }).then(function(data) {
+            document.getElementById("read_only_area").value = data["translations"][0]["text"];
+        }).catch(function(error) {
+            document.getElementById("read_only_area").value = error.message;
+        });
+};
+
+function translate_to_eng() { //write_areaに入力されている文をread_only_areaに翻訳して表示する
+    const written_words = document.getElementById("write_area").value;
+
+    let content = encodeURI('auth_key=' + API_KEY + '&text=' + written_words + '&source_lang=JA&target_lang=EN');
+    let url = API_URL + '?' + content;
+
+    fetch(url)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Could not reach the API: " + response.statusText);
+            }
+        }).then(function(data) {
+            document.getElementById("read_only_area").value = data["translations"][0]["text"];
+        }).catch(function(error) {
+            document.getElementById("read_only_area").value = error.message;
+        });
+};
+
+function change_lang() { //英語→日本語　日本語→英語を切り替える
+    document.getElementById("write_area").value = "";
+    document.getElementById("read_only_area").value = "";
+    if(lang_areas[0].textContent == "英語"){
+        let temp = lang_areas[0].textContent;
+        lang_areas[0].textContent = lang_areas[1].textContent;
+        lang_areas[1].textContent = temp;
+        translate_button.removeEventListener("click", translate_to_jap);
+        translate_button.addEventListener("click", translate_to_eng);
+    }else{
+        let temp = lang_areas[0].textContent;
+        lang_areas[0].textContent = lang_areas[1].textContent;
+        lang_areas[1].textContent = temp;
+        translate_button.removeEventListener("click", translate_to_eng);
+        translate_button.addEventListener("click", translate_to_jap);
+    }
+}
+
+translate_button.addEventListener("click", translate_to_jap);
+change_lang_button.addEventListener("click", change_lang);
