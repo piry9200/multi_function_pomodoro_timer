@@ -67,11 +67,11 @@ function render_time(){
 
 function confirm_form(){ //timerのメンバ変数をフォームに合わせる
     if(timer.status == 10){//集中モード中の時は「集中」のフォームから値を取得
-        timer.min = Number(work_form_minute.value);
-        timer.sec = Number(work_form_second.value);
+        timer.min = work_form_minute.value;
+        timer.sec = work_form_second.value;
     }else if(timer.status == -10){//休憩モード中の時は「休憩」のフォームから値を取得
-        timer.min = Number(rest_form_minute.value);
-        timer.sec = Number(rest_form_second.value);
+        timer.min = rest_form_minute.value;
+        timer.sec = rest_form_second.value;
     }
     console.log("confirm");
 }
@@ -170,8 +170,8 @@ for(let i=0; i<2; i++){
 }
 
 // timerの初期設定
-const init_min = Number(work_form_minute.value)
-const init_sec = Number(work_form_second.value)
+const init_min = work_form_minute.value
+const init_sec = work_form_second.value
 const timer = new Timer(init_min, init_sec, 10, null, false, true);
 //タイマー表示の初期設定
 display_minute.textContent = timer.min;
