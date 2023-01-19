@@ -123,6 +123,7 @@ function handle_clicked_start_stop_button(){
 function handle_clicked_reset_button(){
     timer.must_change = true;
     timer.posing = false;
+    start_stop_button.textContent = "スタート";
     clearInterval(timer.timerId);
     confirm_form();
     display_minute.textContent = timer.min;
