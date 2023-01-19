@@ -120,7 +120,12 @@ function handle_clicked_start_stop_button(){
 }
 
 function handle_clicked_reset_button(){
-    
+    timer.must_change = true;
+    timer.posing = false;
+    clearInterval(timer.timerId);
+    confirm_form();
+    display_minute.textContent = timer.min;
+    display_second.textContent = timer.sec;
 }
 
 function handle_clicked_apply_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
@@ -130,7 +135,7 @@ function handle_clicked_apply_button(){ // 集中モード、休憩モードの�
         display_second.textContent = timer.sec;
     }
 }
-
+//　イベントを仕込む
 start_stop_button.addEventListener("click", handle_clicked_start_stop_button);
 reset_button.addEventListener("click", handle_clicked_reset_button);
 for(let i=0; i<2; i++){
