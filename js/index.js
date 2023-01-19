@@ -4,6 +4,7 @@ const rest_form_minute = document.getElementById("rest_form_minute");
 const rest_form_second = document.getElementById("rest_form_second");
 const start_stop_button = document.getElementById("start_stop_button");
 const reset_button = document.getElementById("reset_button");
+const mode_change_button = document.getElementById("mode_change_button");
 const display_minute =  document.getElementById("display_minute");
 const display_second =  document.getElementById("display_second");
 const display_status =  document.getElementById("display_status");
@@ -128,6 +129,31 @@ function handle_clicked_reset_button(){
     display_second.textContent = timer.sec;
 }
 
+function handle_clicked_mode_change_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
+    if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
+        if(timer.status == 10){ //集中モードから休憩モードに切り替える
+            timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
+            timer.posing = false;
+            timer.must_change = true;
+            confirm_form();
+            display_status.textContent = "休憩";
+            display_minute.textContent = timer.min;
+            display_second.textContent = timer.sec;
+            start_stop_button.textContent = "スタート";
+        }else if(timer.status == -10){ //休憩モードから集中モードに切り替える
+            timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
+            timer.posing = false;
+            timer.must_change = true;
+            confirm_form();
+            display_status.textContent = "集中";
+            display_minute.textContent = timer.min;
+            display_second.textContent = timer.sec;
+            start_stop_button.textContent = "スタート";
+        }
+
+    }
+}
+
 function handle_clicked_apply_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
     if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
         confirm_form();
@@ -138,6 +164,7 @@ function handle_clicked_apply_button(){ // 集中モード、休憩モードの�
 //　イベントを仕込む
 start_stop_button.addEventListener("click", handle_clicked_start_stop_button);
 reset_button.addEventListener("click", handle_clicked_reset_button);
+mode_change_button.addEventListener("click", handle_clicked_mode_change_button);
 for(let i=0; i<2; i++){
     apply_form_buttons[i].addEventListener("click", handle_clicked_apply_button);
 }
