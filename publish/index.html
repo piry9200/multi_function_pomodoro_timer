@@ -3,53 +3,69 @@
     <head>
         <meta charset="utf-8">
         <title>多機能ポモドーロタイマー</title>
+        <link rel="stylesheet" href="../css/index.css"></link>
     </head>
     <body>
-        <div id="time">now loading...</div>
-        <div id="timer">
-            <span id="display_status">集中</span>
-            <span id="display_minute">00</span> : <span id="display_second">00</span>
-            <button id="start_stop_button">スタート</button>
-            <button id="reset_button">リセット</button>
-            <button id="mode_change_button">モードチェンジ</button>
-        </div>
-        <form>
-            <div id="set_minute">
-                集中:
-                <label for="minute">分</label>
-                <input type="text" id="work_form_minute" value="25">
-                <label for="second">秒</label>
-                <input type="text" id="work_form_second" value="00">
-                <button type="button" class="apply_form">適用</button>
+        <div class="parent">
+            <header>
+                <div id="time">now loading...</div>
+            </header>
+            <div id="timer">
+                <span id="display_status">集中</span>
+                <div id ="display_min_sec">
+                    <span id="display_minute">00</span> : <span id="display_second">00</span>
+                </div>
+                <div id="timer_buttons">
+                    <button type="button" id="start_stop_button">スタート</button>
+                    <button type="button" id="reset_button">リセット</button>
+                    <button type="button" id="mode_change_button">モードチェンジ</button>
+                </div>
             </div>
-            <div id="set_minute">
-                休憩:
-                <label for="minute">分</label>
-                <input type="text" id="rest_form_minute" value="05">
-                <label for="second">秒</label>
-                <input type="text" id="rest_form_second" value="00">
-                <button type="button" class="apply_form">適用</button>
+            <form id="setting_timer">
+                <div id="set_minute">
+                    集中:
+                    <label for="minute">分</label>
+                    <input type="text" id="work_form_minute" value="25">
+                    <label for="second">秒</label>
+                    <input type="text" id="work_form_second" value="00">
+                    <button type="button" class="apply_form">適用</button>
+                </div>
+                <div id="set_minute">
+                    休憩:
+                    <label for="minute">分</label>
+                    <input type="text" id="rest_form_minute" value="05">
+                    <label for="second">秒</label>
+                    <input type="text" id="rest_form_second" value="00">
+                    <button type="button" class="apply_form">適用</button>
+                </div>
+
+            </form>
+            <br>
+            <form id="translator">
+                <span><div class="lang_area" style="display: inline;">英語</div>(翻訳前)</span>
+                <br>
+                <textarea id="write_area"></textarea>
+                <br>
+                <span><div class="lang_area" style="display: inline;">日本語</div>(翻訳後)</span>
+                <br>
+                <textarea readonly id="read_only_area"></textarea>
+                <button type="button" id="translate_button">翻訳</button>
+                <button type="button" id="change_lang_button">入替え</button>
+            </form>
+            <br>
+            <div id="todo">
+                <div>TODOリスト</div>
+                <input id="todo_input" type="text">
+                <button id="todo_add_button">追加</button>
+                <ul id="content_box">
+                </ul>
             </div>
-        </form>
-        <br>
-        <form>
-            <div class="lang_area">英語</div>
-            <textarea id="write_area"></textarea>
-            <div class="lang_area">日本語</div>
-            <textarea readonly id="read_only_area"></textarea>
-            <button type="button" id="translate_button">翻訳</button>
-            <button type="button" id="change_lang_button">入替え</button>
-        </form>
-        <br>
-        <div id="todo">
-            <input id="todo_input" type="text">
-            <button id="todo_add_button">追加</button>
-            <ul id="content_box">
-            </ul>
-        </div>
-        <div id="cats">
-            <button id="neko_button">猫非表示</button>
-            <img id="img_cats" style="height: 200px; width: 300px; display: block;">
+            <div id="cats">
+                <button id="neko_button">猫非表示</button>
+                <button id="neko_change_button">猫チェンジ</button>
+                <img id="img_cats">
+            </div>
+            <footer></footer>
         </div>
         <script src="../js/timer.js"></script>
         <script src="../js/translater.js"></script>
