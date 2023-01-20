@@ -35,4 +35,4 @@ neko_button.addEventListener("click", control_neko);
 neko_change_button.addEventListener("click", get_cats);
 
 get_cats(); //初期表示
-setInterval("get_cats()", 60000 * 10);
+setInterval("get_cats()", 60000 * 1);
