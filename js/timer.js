@@ -26,6 +26,7 @@ class Timer {
         }else{ //秒が0のときに実行
             if(this.min == 0){//00:00のときの処理
                 if(timer.status == 10){ //次のモード(休憩モード)の値をフォームから取得し表示を変える
+                    change_background_color();
                     timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
                     confirm_form();
                     display_status.textContent = "RESTING";
@@ -34,6 +35,7 @@ class Timer {
                     start_stop_button.textContent = "スタート";
                     console.log("休憩モードにする");
                 }else if(timer.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
+                    change_background_color();
                     timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
                     confirm_form();
                     display_status.textContent = "WORKING";
@@ -132,6 +134,7 @@ function handle_clicked_reset_button(){
 
 function handle_clicked_mode_change_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
     if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
+        change_background_color();
         if(timer.status == 10){ //集中モードから休憩モードに切り替える
             timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
             timer.posing = false;
@@ -162,6 +165,21 @@ function handle_clicked_apply_button(){ // 集中モード、休憩モードの�
         display_second.textContent = timer.sec;
     }
 }
+
+function change_background_color(){
+    if(timer.status == 10){ //集中モード中のとき,背景を青に変える
+        document.body.style.backgroundColor = "rgb(165, 203, 211)";
+        document.getElementById("translator").style.backgroundColor = "rgb(178, 218, 226)";
+        document.getElementById("todo").style.backgroundColor = "rgb(178, 218, 226)";
+        document.getElementById("cats").style.backgroundColor = "rgb(178, 218, 226)";
+    } else if(timer.status == -10){
+        document.body.style.backgroundColor = "rgb(211, 165, 170)";
+        document.getElementById("translator").style.backgroundColor = "rgb(223, 177, 182)";
+        document.getElementById("todo").style.backgroundColor = "rgb(223, 177, 182)";
+        document.getElementById("cats").style.backgroundColor = "rgb(223, 177, 182)";
+    }
+}
+
 //　イベントを仕込む
 start_stop_button.addEventListener("click", handle_clicked_start_stop_button);
 reset_button.addEventListener("click", handle_clicked_reset_button);
