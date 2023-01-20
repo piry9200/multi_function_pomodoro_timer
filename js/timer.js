@@ -9,6 +9,7 @@ const display_minute =  document.getElementById("display_minute");
 const display_second =  document.getElementById("display_second");
 const display_status =  document.getElementById("display_status");
 const apply_form_buttons = document.getElementsByClassName("apply_form");
+const sound = new Audio("../sounds/チーン.mp3");
 
 class Timer {
     constructor(min, sec, status, timerId, posing, must_change){
@@ -27,6 +28,7 @@ class Timer {
             if(this.min == 0){//00:00のときの処理
                 if(timer.status == 10){ //次のモード(休憩モード)の値をフォームから取得し表示を変える
                     change_background_color();
+                    sound.play();
                     timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
                     confirm_form();
                     display_status.textContent = "RESTING";
@@ -36,6 +38,7 @@ class Timer {
                     console.log("休憩モードにする");
                 }else if(timer.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
                     change_background_color();
+                    sound.play();
                     timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
                     confirm_form();
                     display_status.textContent = "WORKING";
