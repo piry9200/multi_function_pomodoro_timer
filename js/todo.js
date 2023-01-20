@@ -11,6 +11,7 @@ function push_to_todo(event){ //inputに書かれた文をtodoリストに入れ
         // 削除用のbuttonタグを新しく作る
         const delete_button = document.createElement("button");
         delete_button.textContent = "削除";
+        delete_button.style.marginLeft = "10px";
         delete_button.addEventListener("click",delete_content);
         //liの子要素に削除用ボタンを追加
         new_li.appendChild(delete_button);

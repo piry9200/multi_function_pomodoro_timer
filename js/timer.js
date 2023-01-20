@@ -28,7 +28,7 @@ class Timer {
                 if(timer.status == 10){ //次のモード(休憩モード)の値をフォームから取得し表示を変える
                     timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
                     confirm_form();
-                    display_status.textContent = "休憩";
+                    display_status.textContent = "RESTING";
                     display_minute.textContent = timer.min;
                     display_second.textContent = timer.sec;
                     start_stop_button.textContent = "スタート";
@@ -36,7 +36,7 @@ class Timer {
                 }else if(timer.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
                     timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
                     confirm_form();
-                    display_status.textContent = "集中";
+                    display_status.textContent = "WORKING";
                     display_minute.textContent = timer.min;
                     display_second.textContent = timer.sec;
                     start_stop_button.textContent = "スタート";
@@ -137,7 +137,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
             timer.posing = false;
             timer.must_change = true;
             confirm_form();
-            display_status.textContent = "休憩";
+            display_status.textContent = "RESTING";
             display_minute.textContent = timer.min;
             display_second.textContent = timer.sec;
             start_stop_button.textContent = "スタート";
@@ -146,7 +146,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
             timer.posing = false;
             timer.must_change = true;
             confirm_form();
-            display_status.textContent = "集中";
+            display_status.textContent = "WORKING";
             display_minute.textContent = timer.min;
             display_second.textContent = timer.sec;
             start_stop_button.textContent = "スタート";
