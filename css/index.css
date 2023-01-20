@@ -29,6 +29,12 @@ button {
     grid-row-gap: 0px;
 }
 
+#sign{
+    grid-row: 6/7;
+    grid-column: 1/2;
+    margin-left: 10px;
+}
+
 #time {
     grid-row: 1/2;
     grid-column: 1/2;
