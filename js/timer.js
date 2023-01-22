@@ -18,7 +18,7 @@ class Timer {
         this.status = status; //状態を保持する( =10: 集中,  =-10: 休憩)
         this.timerId = timerId; //countdownに使っているIntervalのIDを保持
         this.posing = posing; //一時停止中かどうかをブーリアン値で保持 
-        this.must_change = must_change //モードチェンジすべきかどうかをブーリアン値で保持
+        this.must_change = must_change //モードチェンジすべきかどうかをブーリアン値で保持 また集中モード、休憩モード開始前もtrue
     }
 
     countdown(){ //メンバ変数 min==0, sec=0になるまでカウントダウンする。00:00になったらmust_changeをtrueにして、Intervalを止め、次のstatus0にする.
@@ -26,25 +26,8 @@ class Timer {
             this.sec = this.sec - 1;
         }else{ //秒が0のときに実行
             if(this.min == 0){//00:00のときの処理
-                if(this.status == 10){ //次のモード(休憩モード)の値をフォームから取得し表示を変える
-                    change_background_color();
-                    sound.play();
-                    this.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
-                    this.confirm_form();
-                    this.display_timer();
-                    start_stop_button.textContent = "スタート";
-                    console.log("休憩モードにする");
-                }else if(this.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
-                    change_background_color();
-                    sound.play();
-                    this.status = 10; //集中モードの時間を取得するためにstatusを10にする
-                    this.confirm_form();
-                    this.display_timer();
-                    start_stop_button.textContent = "スタート";
-                    console.log("集中モードにする");
-                }
-                this.must_change = true;
-                clearInterval(this.timerId);
+                sound.play();
+                this.mode_change();
             }else{
                 this.min = this.min - 1;
                 this.sec = 59;
@@ -60,7 +43,6 @@ class Timer {
             this.min = rest_form_minute.value;
             this.sec = rest_form_second.value;
         }
-        console.log("confirm");
     }
 
     display_timer(){ //timerをhtmlに表示させる
@@ -74,6 +56,25 @@ class Timer {
             display_second.textContent = this.sec;
         }
     }
+
+    mode_change(){
+        if(this.status == 10){ //集中モードのとき
+            change_background_color();
+            this.status = -10; //休憩モードへ移行
+            this.confirm_form(); //時間を取得
+            this.display_timer(); //時間をhtmlに表示
+            start_stop_button.textContent = "スタート";
+        }else if(this.status == -10){ //休憩モードのとき
+            change_background_color();
+            this.status = 10; //集中モードへ移行
+            this.confirm_form(); //時間を取得
+            this.display_timer(); //時間をhtmlに表示
+            start_stop_button.textContent = "スタート";
+        }
+        this.must_change = true;
+        this.posing = false;
+        clearInterval(this.timerId);
+    }
 }
 
 function render_time(){
@@ -83,10 +84,6 @@ function render_time(){
         let minute = date.getMinutes();
         let second = date.getSeconds();
         timebox.textContent = hour + ":" + minute + ":" + second;
-        console.log("timer.status: " + timer.status);
-        console.log("timer.posing: " + timer.posing);
-        console.log("timer.must_change: " + timer.must_change);
-        console.log("");
 }
 
 function handleTimer(){
@@ -94,9 +91,7 @@ function handleTimer(){
         timer.countdown();
         //タイマー表示を書き換える
         timer.display_timer();
-        console.log("min:sec " + timer.min + ":" + timer.sec);
     }
-    //console.log("handletimer");
 
 }
 
@@ -143,22 +138,7 @@ function handle_clicked_reset_button(){
 
 function handle_clicked_mode_change_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
     if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
-        change_background_color();
-        if(timer.status == 10){ //集中モードから休憩モードに切り替える
-            timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
-            timer.posing = false;
-            timer.must_change = true;
-            timer.confirm_form();
-            timer.display_timer()
-            start_stop_button.textContent = "スタート";
-        }else if(timer.status == -10){ //休憩モードから集中モードに切り替える
-            timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
-            timer.posing = false;
-            timer.must_change = true;
-            timer.confirm_form();
-            timer.display_timer()
-            start_stop_button.textContent = "スタート";
-        }
+        timer.mode_change();
 
     }
 }
