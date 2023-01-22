@@ -31,9 +31,7 @@ class Timer {
                     sound.play();
                     this.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
                     this.confirm_form();
-                    display_status.textContent = "RESTING";
-                    display_minute.textContent = this.min;
-                    display_second.textContent = this.sec;
+                    this.display_timer();
                     start_stop_button.textContent = "スタート";
                     console.log("休憩モードにする");
                 }else if(this.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
@@ -41,9 +39,7 @@ class Timer {
                     sound.play();
                     this.status = 10; //集中モードの時間を取得するためにstatusを10にする
                     this.confirm_form();
-                    display_status.textContent = "WORKING";
-                    display_minute.textContent = this.min;
-                    display_second.textContent = this.sec;
+                    this.display_timer();
                     start_stop_button.textContent = "スタート";
                     console.log("集中モードにする");
                 }
@@ -66,6 +62,18 @@ class Timer {
         }
         console.log("confirm");
     }
+
+    display_timer(){ //timerをhtmlに表示させる
+        if(this.status == 10){
+            display_status.textContent = "WORKING";
+            display_minute.textContent = this.min;
+            display_second.textContent = this.sec;
+        }else if(this.status == -10){
+            display_status.textContent = "RESTING";
+            display_minute.textContent = this.min;
+            display_second.textContent = this.sec;
+        }
+    }
 }
 
 function render_time(){
@@ -85,8 +93,7 @@ function handleTimer(){
     if((timer.status == 10 && !timer.posing && !timer.must_change) || (timer.status == -10 && !timer.posing && !timer.must_change)){ //集中モード中 休憩モード中
         timer.countdown();
         //タイマー表示を書き換える
-        display_minute.textContent = timer.min;
-        display_second.textContent = timer.sec;
+        timer.display_timer();
         console.log("min:sec " + timer.min + ":" + timer.sec);
     }
     //console.log("handletimer");
@@ -131,8 +138,7 @@ function handle_clicked_reset_button(){
     start_stop_button.textContent = "スタート";
     clearInterval(timer.timerId);
     timer.confirm_form();
-    display_minute.textContent = timer.min;
-    display_second.textContent = timer.sec;
+    timer.display_timer()
 }
 
 function handle_clicked_mode_change_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
@@ -143,18 +149,14 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
             timer.posing = false;
             timer.must_change = true;
             timer.confirm_form();
-            display_status.textContent = "RESTING";
-            display_minute.textContent = timer.min;
-            display_second.textContent = timer.sec;
+            timer.display_timer()
             start_stop_button.textContent = "スタート";
         }else if(timer.status == -10){ //休憩モードから集中モードに切り替える
             timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
             timer.posing = false;
             timer.must_change = true;
             timer.confirm_form();
-            display_status.textContent = "WORKING";
-            display_minute.textContent = timer.min;
-            display_second.textContent = timer.sec;
+            timer.display_timer()
             start_stop_button.textContent = "スタート";
         }
 
@@ -164,8 +166,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
 function handle_clicked_apply_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
     if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
         timer.confirm_form();
-        display_minute.textContent = timer.min;
-        display_second.textContent = timer.sec;
+        timer.display_timer();
     }
 }
 
@@ -196,7 +197,6 @@ const init_min = work_form_minute.value
 const init_sec = work_form_second.value
 const timer = new Timer(init_min, init_sec, 10, null, false, true);
 //タイマー表示の初期設定
-display_minute.textContent = timer.min;
-display_second.textContent = timer.sec;
+timer.display_timer()
 
 setInterval("render_time()", 1000);
