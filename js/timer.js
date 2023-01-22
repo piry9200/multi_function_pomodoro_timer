@@ -57,7 +57,7 @@ class Timer {
         }
     }
 
-    mode_change(){
+    mode_change(){ //モードを切り替える
         if(this.status == 10){ //集中モードのとき
             change_background_color();
             this.status = -10; //休憩モードへ移行
