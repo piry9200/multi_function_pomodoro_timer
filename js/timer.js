@@ -13,15 +13,15 @@ const sound = new Audio("../sounds/チーン.mp3");
 
 class Timer {
     constructor(min, sec, status, timerId, posing, must_change){
-        this.min = min;
-        this.sec = sec;
-        this.status = status; //集中: status　== 10, 休憩: status == -10
-        this.timerId = timerId;
-        this.posing = posing; //カウントダウン中はtrue
-        this.must_change = must_change
+        this.min = min; //分を保持するメンバ変数
+        this.sec = sec; //秒を保持するメンバ変数
+        this.status = status; //状態を保持する( =10: 集中,  =-10: 休憩)
+        this.timerId = timerId; //countdownに使っているIntervalのIDを保持
+        this.posing = posing; //一時停止中かどうかをブーリアン値で保持 
+        this.must_change = must_change //モードチェンジすべきかどうかをブーリアン値で保持
     }
 
-    countdown(){ //00:00になるまでメンバ変数 min, secをカウントダウンする。00:00になったらmust_changeをtrueにして、Intervalを止め、statusを0にする.
+    countdown(){ //メンバ変数 min==0, sec=0になるまでカウントダウンする。00:00になったらmust_changeをtrueにして、Intervalを止め、次のstatus0にする.
         if(this.sec != 0){ //秒が0でないときに実行
             this.sec = this.sec - 1;
         }else{ //秒が0のときに実行
