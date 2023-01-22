@@ -21,7 +21,7 @@ class Timer {
         this.must_change = must_change
     }
 
-    countdown(){ //00:00になるまでカウントダウンする。00:00になったらmust_changeをtrueにして、Intervalを止め、statusを0にする.
+    countdown(){ //00:00になるまでメンバ変数 min, secをカウントダウンする。00:00になったらmust_changeをtrueにして、Intervalを止め、statusを0にする.
         if(this.sec != 0){ //秒が0でないときに実行
             this.sec = this.sec - 1;
         }else{ //秒が0のときに実行
@@ -30,7 +30,7 @@ class Timer {
                     change_background_color();
                     sound.play();
                     this.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
-                    confirm_form();
+                    this.confirm_form();
                     display_status.textContent = "RESTING";
                     display_minute.textContent = this.min;
                     display_second.textContent = this.sec;
@@ -40,7 +40,7 @@ class Timer {
                     change_background_color();
                     sound.play();
                     this.status = 10; //集中モードの時間を取得するためにstatusを10にする
-                    confirm_form();
+                    this.confirm_form();
                     display_status.textContent = "WORKING";
                     display_minute.textContent = this.min;
                     display_second.textContent = this.sec;
@@ -55,6 +55,17 @@ class Timer {
             }
         }
     }
+
+    confirm_form(){ //timerのメンバ変数 min, secをフォームの数値に合わせる
+        if(this.status == 10){//集中モード中の時は「集中」のフォームから値を取得
+            this.min = work_form_minute.value;
+            this.sec = work_form_second.value;
+        }else if(this.status == -10){//休憩モード中の時は「休憩」のフォームから値を取得
+            this.min = rest_form_minute.value;
+            this.sec = rest_form_second.value;
+        }
+        console.log("confirm");
+    }
 }
 
 function render_time(){
@@ -68,17 +79,6 @@ function render_time(){
         console.log("timer.posing: " + timer.posing);
         console.log("timer.must_change: " + timer.must_change);
         console.log("");
-}
-
-function confirm_form(){ //timerのメンバ変数をフォームに合わせる
-    if(timer.status == 10){//集中モード中の時は「集中」のフォームから値を取得
-        timer.min = work_form_minute.value;
-        timer.sec = work_form_second.value;
-    }else if(timer.status == -10){//休憩モード中の時は「休憩」のフォームから値を取得
-        timer.min = rest_form_minute.value;
-        timer.sec = rest_form_second.value;
-    }
-    console.log("confirm");
 }
 
 function handleTimer(){
@@ -97,7 +97,7 @@ function handle_clicked_start_stop_button(){
     if(timer.status == 10 && !timer.posing && timer.must_change){ //集中開始前に押された場合
         timer.status = 10; //statusを集中モードに
         timer.must_change = false;
-        confirm_form(); //timerにformの時間をセット
+        timer.confirm_form(); //timerにformの時間をセット
         timer.timerId = setInterval("handleTimer()", 1000);
         start_stop_button.textContent = "ストップ";
     }else if(timer.status == 10 && !timer.posing && !timer.must_change){ //集中モード中に押された場合
@@ -111,7 +111,7 @@ function handle_clicked_start_stop_button(){
     }else if(timer.status == -10 && !timer.posing && timer.must_change){ //休憩モード開始前に押された場合
         timer.status = -10; //statusを休憩モードに
         timer.must_change = false;
-        confirm_form(); //timerにformの時間をセット
+        timer.confirm_form(); //timerにformの時間をセット
         timer.timerId = setInterval("handleTimer()", 1000);
         start_stop_button.textContent = "ストップ";
     }else if(timer.status == -10 && !timer.posing && !timer.must_change){ //休憩モード中に押された場合
@@ -130,7 +130,7 @@ function handle_clicked_reset_button(){
     timer.posing = false;
     start_stop_button.textContent = "スタート";
     clearInterval(timer.timerId);
-    confirm_form();
+    timer.confirm_form();
     display_minute.textContent = timer.min;
     display_second.textContent = timer.sec;
 }
@@ -142,7 +142,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
             timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
             timer.posing = false;
             timer.must_change = true;
-            confirm_form();
+            timer.confirm_form();
             display_status.textContent = "RESTING";
             display_minute.textContent = timer.min;
             display_second.textContent = timer.sec;
@@ -151,7 +151,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
             timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
             timer.posing = false;
             timer.must_change = true;
-            confirm_form();
+            timer.confirm_form();
             display_status.textContent = "WORKING";
             display_minute.textContent = timer.min;
             display_second.textContent = timer.sec;
@@ -163,7 +163,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
 
 function handle_clicked_apply_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
     if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
-        confirm_form();
+        timer.confirm_form();
         display_minute.textContent = timer.min;
         display_second.textContent = timer.sec;
     }
