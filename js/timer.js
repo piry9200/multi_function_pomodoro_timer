@@ -26,24 +26,24 @@ class Timer {
             this.sec = this.sec - 1;
         }else{ //秒が0のときに実行
             if(this.min == 0){//00:00のときの処理
-                if(timer.status == 10){ //次のモード(休憩モード)の値をフォームから取得し表示を変える
+                if(this.status == 10){ //次のモード(休憩モード)の値をフォームから取得し表示を変える
                     change_background_color();
                     sound.play();
-                    timer.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
+                    this.status = -10; //休憩モードの時間を取得するためにstatusを-10にする
                     confirm_form();
                     display_status.textContent = "RESTING";
-                    display_minute.textContent = timer.min;
-                    display_second.textContent = timer.sec;
+                    display_minute.textContent = this.min;
+                    display_second.textContent = this.sec;
                     start_stop_button.textContent = "スタート";
                     console.log("休憩モードにする");
-                }else if(timer.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
+                }else if(this.status == -10){ //次のモード(集中モード)の値をフォームから取得し表示を変える
                     change_background_color();
                     sound.play();
-                    timer.status = 10; //集中モードの時間を取得するためにstatusを10にする
+                    this.status = 10; //集中モードの時間を取得するためにstatusを10にする
                     confirm_form();
                     display_status.textContent = "WORKING";
-                    display_minute.textContent = timer.min;
-                    display_second.textContent = timer.sec;
+                    display_minute.textContent = this.min;
+                    display_second.textContent = this.sec;
                     start_stop_button.textContent = "スタート";
                     console.log("集中モードにする");
                 }
