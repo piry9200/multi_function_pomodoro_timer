@@ -15,7 +15,7 @@ class Timer {
     constructor(min, sec, status, timerId, posing, must_change){
         this.min = min;
         this.sec = sec;
-        this.status = status; //集中: status > 0, 休憩: status < 0
+        this.status = status; //集中: status　== 10, 休憩: status == -10
         this.timerId = timerId;
         this.posing = posing; //カウントダウン中はtrue
         this.must_change = must_change
