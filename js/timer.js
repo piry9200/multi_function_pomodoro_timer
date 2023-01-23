@@ -61,16 +61,13 @@ class Timer {
         if(this.status == 10){ //集中モードのとき
             change_background_color();
             this.status = -10; //休憩モードへ移行
-            this.confirm_form(); //時間を取得
-            this.display_timer(); //時間をhtmlに表示
-            start_stop_button.textContent = "スタート";
         }else if(this.status == -10){ //休憩モードのとき
             change_background_color();
             this.status = 10; //集中モードへ移行
-            this.confirm_form(); //時間を取得
-            this.display_timer(); //時間をhtmlに表示
-            start_stop_button.textContent = "スタート";
         }
+        this.confirm_form(); //時間を取得
+        this.display_timer(); //時間をhtmlに表示
+        start_stop_button.textContent = "スタート";
         this.must_change = true;
         this.posing = false;
         clearInterval(this.timerId);
