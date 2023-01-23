@@ -59,12 +59,11 @@ class Timer {
 
     mode_change(){ //モードを切り替える
         if(this.status == 10){ //集中モードのとき
-            change_background_color();
             this.status = -10; //休憩モードへ移行
         }else if(this.status == -10){ //休憩モードのとき
-            change_background_color();
             this.status = 10; //集中モードへ移行
         }
+        change_background_color(); //背景色を変更
         this.confirm_form(); //時間を取得
         this.display_timer(); //時間をhtmlに表示
         start_stop_button.textContent = "スタート";
@@ -148,16 +147,16 @@ function handle_clicked_apply_button(){ // 集中モード、休憩モードの�
 }
 
 function change_background_color(){
-    if(timer.status == 10){ //集中モード中のとき,背景を青に変える
-        document.body.style.backgroundColor = "rgb(165, 203, 211)";
-        document.getElementById("translator").style.backgroundColor = "rgb(178, 218, 226)";
-        document.getElementById("todo").style.backgroundColor = "rgb(178, 218, 226)";
-        document.getElementById("cats").style.backgroundColor = "rgb(178, 218, 226)";
-    } else if(timer.status == -10){
+    if(timer.status == 10){ //集中モード中のとき,背景を赤に変える
         document.body.style.backgroundColor = "rgb(211, 165, 170)";
         document.getElementById("translator").style.backgroundColor = "rgb(223, 177, 182)";
         document.getElementById("todo").style.backgroundColor = "rgb(223, 177, 182)";
         document.getElementById("cats").style.backgroundColor = "rgb(223, 177, 182)";
+    } else if(timer.status == -10){ //集中モード中のとき,背景を赤に変える
+        document.body.style.backgroundColor = "rgb(165, 203, 211)";
+        document.getElementById("translator").style.backgroundColor = "rgb(178, 218, 226)";
+        document.getElementById("todo").style.backgroundColor = "rgb(178, 218, 226)";
+        document.getElementById("cats").style.backgroundColor = "rgb(178, 218, 226)";
     }
 }
 
