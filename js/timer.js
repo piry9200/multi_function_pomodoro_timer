@@ -21,7 +21,7 @@ class Timer {
         this.must_change = must_change //モードチェンジすべきかどうかをブーリアン値で保持 また集中モード、休憩モード開始前もtrue
     }
 
-    countdown(){ //メンバ変数 min==0, sec=0になるまでカウントダウンする。00:00になったらmust_changeをtrueにして、Intervalを止め、次のstatus0にする.
+    countdown(){ //メンバ変数 min==0, sec=0になるまでカウントダウンする。00:00になったらモードをチェンジする
         if(this.sec != 0){ //秒が0でないときに実行
             this.sec = this.sec - 1;
         }else{ //秒が0のときに実行
