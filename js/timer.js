@@ -25,8 +25,8 @@ class Timer {
         if(this.sec != 0){ //秒が0でないときに実行
             this.sec = this.sec - 1;
         }else{ //秒が0のときに実行
-            if(this.min == 0){//00:00のときの処理
-                sound.play();
+            if(this.min == 0){ //00:00のときの処理
+                sound.play(); //ベルを鳴らす
                 this.mode_change();
             }else{
                 this.min = this.min - 1;
@@ -35,7 +35,7 @@ class Timer {
         }
     }
 
-    confirm_form(){ //timerのメンバ変数 min, secをフォームの数値に合わせる
+    inquire_form(){ //timerのメンバ変数 min, secをフォームの数値に合わせる
         if(this.status == 10){//集中モード中の時は「集中」のフォームから値を取得
             this.min = work_form_minute.value;
             this.sec = work_form_second.value;
@@ -64,7 +64,7 @@ class Timer {
             this.status = 10; //集中モードへ移行
         }
         change_background_color(); //背景色を変更
-        this.confirm_form(); //時間を取得
+        this.inquire_form(); //時間を取得
         this.display_timer(); //時間をhtmlに表示
         start_stop_button.textContent = "スタート";
         this.must_change = true;
@@ -95,7 +95,7 @@ function handle_clicked_start_stop_button(){
     if(timer.status == 10 && !timer.posing && timer.must_change){ //集中開始前に押された場合
         timer.status = 10; //statusを集中モードに
         timer.must_change = false;
-        timer.confirm_form(); //timerにformの時間をセット
+        timer.inquire_form(); //timerにformの時間をセット
         timer.timerId = setInterval("handleTimer()", 1000);
         start_stop_button.textContent = "ストップ";
     }else if(timer.status == 10 && !timer.posing && !timer.must_change){ //集中モード中に押された場合
@@ -109,7 +109,7 @@ function handle_clicked_start_stop_button(){
     }else if(timer.status == -10 && !timer.posing && timer.must_change){ //休憩モード開始前に押された場合
         timer.status = -10; //statusを休憩モードに
         timer.must_change = false;
-        timer.confirm_form(); //timerにformの時間をセット
+        timer.inquire_form(); //timerにformの時間をセット
         timer.timerId = setInterval("handleTimer()", 1000);
         start_stop_button.textContent = "ストップ";
     }else if(timer.status == -10 && !timer.posing && !timer.must_change){ //休憩モード中に押された場合
@@ -128,7 +128,7 @@ function handle_clicked_reset_button(){
     timer.posing = false;
     start_stop_button.textContent = "スタート";
     clearInterval(timer.timerId);
-    timer.confirm_form();
+    timer.inquire_form();
     timer.display_timer()
 }
 
@@ -141,7 +141,7 @@ function handle_clicked_mode_change_button(){ // 集中モード、休憩モー�
 
 function handle_clicked_apply_button(){ // 集中モード、休憩モードの開始時または、一時停止中に実行できる
     if( (timer.status == 10 && !timer.posing && timer.must_change) || (timer.status == -10 && !timer.posing && timer.must_change) || (timer.status == 10 && timer.posing && !timer.must_change) || (timer.status == -10 && timer.posing && !timer.must_change) ){
-        timer.confirm_form();
+        timer.inquire_form();
         timer.display_timer();
     }
 }
